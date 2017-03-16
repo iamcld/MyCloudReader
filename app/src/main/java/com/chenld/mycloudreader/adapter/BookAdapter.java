@@ -1,0 +1,249 @@
+package com.chenld.mycloudreader.adapter;
+
+import android.content.Context;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.apkfuns.logutils.LogUtils;
+import com.chenld.mycloudreader.MainActivity;
+import com.chenld.mycloudreader.R;
+import com.chenld.mycloudreader.bean.book.BooksBean;
+import com.chenld.mycloudreader.databinding.FooterItemBookBinding;
+import com.chenld.mycloudreader.databinding.HeaderItemBookBinding;
+import com.chenld.mycloudreader.databinding.ItemBookBinding;
+import com.chenld.mycloudreader.ui.book.child.BookDetailActivity;
+import com.chenld.mycloudreader.utils.PerfectClickListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.R.id.list;
+
+/**
+ * Created by chenld on 2017/3/6.
+ */
+
+public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private MainActivity context;
+
+    private int status = 1;
+    public static final int LOAD_MORE = 0;
+    public static final int LOAD_PULL_TO = 1;
+    public static final int LOAD_NONE = 2;
+    private static final int LOAD_END = 3;
+    private static final int TYPE_TOP = -1;
+
+    private static final int TYPE_FOOTER_BOOK = -2;
+    private static final int TYPE_HEADER_BOOK = -3;
+    private static final int TYPE_CONTENT_BOOK = -4;
+
+    private List<BooksBean> list;
+
+    public BookAdapter(Context context) {
+        this.context = (MainActivity) context;
+        list = new ArrayList<>();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE_HEADER_BOOK;
+        } else if (position + 1 == getItemCount()) {
+            return TYPE_FOOTER_BOOK;
+        } else {
+            return TYPE_CONTENT_BOOK;
+        }
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //根据不同viewType创建对应的RecyclerView.ViewHolder
+        switch (viewType) {
+            case TYPE_HEADER_BOOK:
+                HeaderItemBookBinding mBindHeader = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                        R.layout.header_item_book, parent, false);
+                return new HeaderViewHolder(mBindHeader.getRoot());
+            case TYPE_FOOTER_BOOK:
+                FooterItemBookBinding mBindFooter = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.footer_item_book, parent, false);
+                return new FooterViewHolder(mBindFooter.getRoot());
+            default:
+                ItemBookBinding mBindBook = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_book, parent, false);
+                return new BookViewHolder(mBindBook.getRoot());
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof HeaderViewHolder){
+            HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
+            headerViewHolder.bindItem();
+        }else if (holder instanceof FooterViewHolder){
+            FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
+            footerViewHolder.bindItem();
+        } else if (holder instanceof BookViewHolder) {
+            BookViewHolder bookViewHolder = (BookViewHolder) holder;
+            if (list != null && list.size() > 0) {
+                // 内容从"1"开始
+                LogUtils.d("------position: "+position);
+                bookViewHolder.bindItem(list.get(position - 1), position-1);
+            }
+        }
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size() + 2;
+    }
+
+    /**
+     * 处理 GridLayoutManager 添加头尾布局占满屏幕宽的情况
+     */
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+        if (manager instanceof GridLayoutManager){
+            final GridLayoutManager gridLayoutManager = (GridLayoutManager) manager;
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return (isHeader(position) || isFooter(position)) ? gridLayoutManager.getSpanCount() : 1;
+                }
+            });
+        }
+
+    }
+
+    /**
+     * 处理 StaggeredGridLayoutManager 添加头尾布局占满屏幕宽的情况
+     */
+    @Override
+    public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
+        if (lp != null
+                && lp instanceof StaggeredGridLayoutManager.LayoutParams
+                && (isHeader(holder.getLayoutPosition()) || isFooter(holder.getLayoutPosition()))) {
+            StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
+            p.setFullSpan(true);
+        }
+    }
+    /**
+     * 这里规定 position = 0 时
+     * 就为头布局，设置为占满整屏幕宽
+     */
+    private boolean isHeader(int position) {
+        return position >= 0 && position < 1;
+    }
+
+    /**
+     * 这里规定 position =  getItemCount() - 1时
+     * 就为尾布局，设置为占满整屏幕宽
+     * getItemCount() 改了 ，这里就不用改
+     */
+    private boolean isFooter(int position) {
+        return position < getItemCount() && position >= getItemCount() - 1;
+    }
+
+    private class FooterViewHolder extends RecyclerView.ViewHolder {
+        private FooterItemBookBinding mBindFooter;
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+            //获取子项
+            mBindFooter = DataBindingUtil.getBinding(itemView);
+            mBindFooter.rlMore.setGravity(Gravity.CENTER);
+            //LinearLayoutCompat.LayoutParams params = new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtils.dipToPx(context, 40));
+            //itemView.setLayoutParams(params);
+        }
+        private void bindItem(){
+            switch (status){
+                case LOAD_MORE:
+                    mBindFooter.progress.setVisibility(View.VISIBLE);
+                    mBindFooter.tvLoadPrompt.setText("正在加载...");
+                    itemView.setVisibility(View.VISIBLE);
+                    break;
+                case LOAD_PULL_TO:
+                    mBindFooter.progress.setVisibility(View.GONE);
+                    mBindFooter.tvLoadPrompt.setText("上拉加载更多");
+                    itemView.setVisibility(View.VISIBLE);
+                    break;
+                case LOAD_NONE:
+                    System.out.println("LOAD_NONE----");
+                    mBindFooter.progress.setVisibility(View.GONE);
+                    mBindFooter.tvLoadPrompt.setText("没有更多内容了");
+                    break;
+                case LOAD_END:
+                    itemView.setVisibility(View.GONE);
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    private class HeaderViewHolder extends RecyclerView.ViewHolder {
+        HeaderItemBookBinding mBindBook;
+
+        public HeaderViewHolder(View itemView) {
+            super(itemView);
+            //获取子项
+            mBindBook = DataBindingUtil.getBinding(itemView);
+        }
+
+        private void bindItem() {
+//            mBindBook.setBean(book);
+//            mBindBook.executePendingBindings();
+        }
+    }
+
+    private class BookViewHolder extends RecyclerView.ViewHolder{
+        ItemBookBinding mBindBook;
+
+        public BookViewHolder(View itemView) {
+            super(itemView);
+            mBindBook = DataBindingUtil.getBinding(itemView);
+        }
+
+        private void bindItem(final BooksBean book, int position){
+            mBindBook.setBean(book);
+            mBindBook.executePendingBindings();
+
+            mBindBook.llItemTop.setOnClickListener(new PerfectClickListener() {
+                @Override
+                protected void onNoDoubleClick(View v) {
+                    //传递对象book
+                    BookDetailActivity.start(context, book, mBindBook.ivTopPhoto);
+                }
+            });
+        }
+    }
+
+    public List<BooksBean> getList() {
+        return list;
+    }
+
+    public void setList(List<BooksBean> list) {
+        this.list.clear();
+        this.list = list;
+    }
+
+    public void addAll(List<BooksBean> list) {
+        this.list.addAll(list);
+    }
+
+
+    public void updateLoadStatus(int status) {
+        this.status = status;
+        notifyDataSetChanged();
+    }
+}

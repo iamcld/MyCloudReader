@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Interpolator 被用来修饰动画效果，定义动画的变化率，可以使存在的动画效果
+accelerated(加速)，decelerated(减速),repeated(重复),bounced(弹跳)等-->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/accelerate_interpolator">
+    <scale
+        android:duration="400"
+        android:fromAlpha="0.0"
+        android:fromXScale="1.4"
+        android:fromYScale="1.4"
+        android:pivotX="40%p"
+        android:pivotY="40%p"
+        android:toAlpha="1.0"
+        android:toXScale="1.0"
+        android:toYScale="1.0" />
+
+</set>
