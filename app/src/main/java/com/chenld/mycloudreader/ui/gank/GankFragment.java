@@ -39,7 +39,7 @@ public class GankFragment extends BaseFragment<FragmentGankBinding> {
         showLoading();
         initFragmentList();
         /**
-         * 注意使用的是：getChildFragmentManager，
+         * 注意使用的是：getChildFragmentManager，Fragment里面嵌套Fragment 的话：一定要用getChildFragmentManager()
          * 这样setOffscreenPageLimit()就可以添加上，保留相邻3个实例，切换时不会卡
          * 但会内存溢出，在显示时加载数据
          */

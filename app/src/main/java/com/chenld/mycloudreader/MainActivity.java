@@ -26,6 +26,8 @@ import com.chenld.mycloudreader.http.rx.RxBusBaseMessage;
 import com.chenld.mycloudreader.http.rx.RxCodeConstants;
 import com.chenld.mycloudreader.ui.book.BookFragment;
 import com.chenld.mycloudreader.ui.gank.GankFragment;
+import com.chenld.mycloudreader.ui.menu.NavAboutActivity;
+import com.chenld.mycloudreader.ui.menu.NavHomePageActivity;
 import com.chenld.mycloudreader.ui.one.OneFragment;
 import com.chenld.mycloudreader.utils.CommonUtils;
 import com.chenld.mycloudreader.utils.ImgLoadUtil;
@@ -124,7 +126,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentLists.add(new OneFragment());
         fragmentLists.add(new BookFragment());
 
-        // 注意使用的是：getSupportFragmentManager
+        // 注意使用的是兼容包v4下：getSupportFragmentManager：得到的是activity对所包含fragment的Manager
+        //3.0以下：getSupportFragmentManager()
+        //3.0以上：getFragmentManager()
         MyFragmentPagerAdapter adapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentLists);
         vpContent.setAdapter(adapter);
 
@@ -247,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mBinding.drawerLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-//                        NavHomePageActivity.startHome(MainActivity.this);
+                        NavHomePageActivity.startHome(MainActivity.this);
                     }
                 }, 360);
                 break;
@@ -275,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mBinding.drawerLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-//                        NavAboutActivity.start(MainActivity.this);
+                        NavAboutActivity.start(MainActivity.this);
                     }
                 }, 360);
                 break;

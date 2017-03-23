@@ -24,6 +24,7 @@ import com.chenld.mycloudreader.http.rx.RxCodeConstants;
 import com.chenld.mycloudreader.utils.CommonUtils;
 import com.chenld.mycloudreader.utils.ImgLoadUtil;
 import com.chenld.mycloudreader.utils.PerfectClickListener;
+import com.chenld.mycloudreader.view.webview.WebViewActivity;
 
 import java.util.List;
 
@@ -200,7 +201,7 @@ public class EverydayAdapter extends BaseRecyclerViewAdapter<List<AndroidBean>> 
         linearLayout.setOnClickListener(new PerfectClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
-//                WebViewActivity.loadUrl(v.getContext(), bean.getUrl(), "加载中...");
+        WebViewActivity.loadUrl(v.getContext(), bean.getUrl(), "加载中...");
             }
         });
 
@@ -217,7 +218,7 @@ public class EverydayAdapter extends BaseRecyclerViewAdapter<List<AndroidBean>> 
                 builder.setPositiveButton("查看详情", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        WebViewActivity.loadUrl(linearLayout.getContext(), bean.getUrl(), "加载中...");
+                       WebViewActivity.loadUrl(linearLayout.getContext(), bean.getUrl(), "加载中...");
                     }
                 });
                 builder.show();

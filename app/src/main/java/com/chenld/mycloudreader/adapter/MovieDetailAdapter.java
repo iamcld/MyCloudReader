@@ -11,6 +11,7 @@ import com.chenld.mycloudreader.base.baseadapter.BaseRecyclerViewHolder;
 import com.chenld.mycloudreader.bean.moviechild.PersonBean;
 import com.chenld.mycloudreader.databinding.ItemMovieDetailPersonBinding;
 import com.chenld.mycloudreader.utils.PerfectClickListener;
+import com.chenld.mycloudreader.view.webview.WebViewActivity;
 
 /**
  * Created by chenld on 2017/3/8.
@@ -41,7 +42,7 @@ public class MovieDetailAdapter extends BaseRecyclerViewAdapter<PersonBean> {
                 @Override
                 protected void onNoDoubleClick(View v) {
                     if (bean != null && !TextUtils.isEmpty(bean.getAlt())) {
-                        // WebViewActivity.loadUrl(v.getContext(), bean.getAlt(), bean.getName());
+                         WebViewActivity.loadUrl(v.getContext(), bean.getAlt(), bean.getName());
                     }
                 }
             });

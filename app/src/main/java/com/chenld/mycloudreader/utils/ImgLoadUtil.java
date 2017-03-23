@@ -150,7 +150,21 @@ public class ImgLoadUtil {
         return R.drawable.img_four_bi_three;
     }
 
+    /**
+     * 用于干货item，将gif图转换为静态图
+     */
+    public static void displayGif(String url, ImageView imageView) {
 
+        Glide.with(imageView.getContext()).load(url)
+                .asBitmap()
+                .placeholder(R.drawable.img_one_bi_one)
+                .error(R.drawable.img_one_bi_one)
+//                .skipMemoryCache(true) //跳过内存缓存
+//                .crossFade(1000)
+//                .diskCacheStrategy(DiskCacheStrategy.SOURCE)// 缓存图片源文件（解决加载gif内存溢出问题）
+//                .into(new GlideDrawableImageViewTarget(imageView, 1));
+                .into(imageView);
+    }
 
     /**
      * 显示高斯模糊效果（电影详情页）

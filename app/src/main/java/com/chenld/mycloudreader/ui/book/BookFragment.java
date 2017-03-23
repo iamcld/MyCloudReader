@@ -18,7 +18,7 @@ import com.chenld.mycloudreader.view.MyFragmentPagerAdapter;
 import java.util.ArrayList;
 
 /**
- * Created by jingbin on 17/03/06.
+ * Created by chenld on 17/03/06.
  *  展示书籍的页面
  *  v2.0 将会增加缓存 和 根据api完善更多内容
  */
@@ -34,7 +34,7 @@ public class BookFragment extends BaseFragment<FragmentBookBinding> {
         showLoading();
         initFragmentList();
         /**
-         * 注意使用的是：getChildFragmentManager，
+         * 注意使用的是：getChildFragmentManager：Fragment里面嵌套Fragment 的话：一定要用getChildFragmentManager()
          * 这样setOffscreenPageLimit()就可以添加上，保留相邻2个实例，切换时不会卡
          * 但会内存溢出，在显示时加载数据
          */

@@ -1,13 +1,17 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.chenld.mycloudreader.ui.gank.child.CustomFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context="com.example.jingbin.cloudreader.ui.gank.child.AndroidFragment">
 
-</FrameLayout>
+        <com.example.xrecyclerview.XRecyclerView
+            android:id="@+id/xrv_custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbVertical="@color/tabBackground"
+            android:scrollbars="vertical" />
+
+    </FrameLayout>
+</layout>

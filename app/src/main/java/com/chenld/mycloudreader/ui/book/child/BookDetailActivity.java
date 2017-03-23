@@ -15,6 +15,7 @@ import com.chenld.mycloudreader.databinding.ActivityBookDetailBinding;
 import com.chenld.mycloudreader.databinding.HeaderBookDetailBinding;
 import com.chenld.mycloudreader.http.HttpUtils;
 import com.chenld.mycloudreader.utils.CommonUtils;
+import com.chenld.mycloudreader.view.webview.WebViewActivity;
 
 import rx.Observer;
 import rx.Subscription;
@@ -83,7 +84,7 @@ public class BookDetailActivity extends BaseHeaderActivity<HeaderBookDetailBindi
 
     @Override
     protected void setTitleClickMore() {
-       // WebViewActivity.loadUrl(this, mBookDetailUrl, mBookDetailName);
+       WebViewActivity.loadUrl(this, mBookDetailUrl, mBookDetailName);
     }
 
 

@@ -35,7 +35,10 @@
         <activity android:name=".base.BaseActivity" />
         <activity android:name=".ui.book.child.BookDetailActivity" />
         <activity android:name=".base.BaseHeaderActivity" />
-        <activity android:name=".view.viewbigimage.ViewBigImageActivity"></activity>
+        <activity android:name=".view.viewbigimage.ViewBigImageActivity"/>
+        <activity android:name=".ui.menu.NavHomePageActivity"/>
+        <activity android:name=".ui.menu.NavAboutActivity"/>
+        <activity android:name=".view.webview.WebViewActivity"/>
     </application>
 
 </manifest>

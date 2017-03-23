@@ -35,6 +35,7 @@ import com.chenld.mycloudreader.utils.GlideImageLoader;
 import com.chenld.mycloudreader.utils.PerfectClickListener;
 import com.chenld.mycloudreader.utils.SPUtils;
 import com.chenld.mycloudreader.utils.TimeUtil;
+import com.chenld.mycloudreader.view.webview.WebViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,7 +176,7 @@ public class EverydayFragment extends BaseFragment<FragmentEverydayBinding> {
         mHeaderBinding.includeEveryday.ibXiandu.setOnClickListener(new PerfectClickListener() {
             @Override
             protected void onNoDoubleClick(View v) {
-                //WebViewActivity.loadUrl(v.getContext(), "https://gank.io/xiandu", "加载中...");
+                WebViewActivity.loadUrl(v.getContext(), "https://gank.io/xiandu", "加载中...");
             }
         });
         mHeaderBinding.includeEveryday.ibMovieHot.setOnClickListener(new PerfectClickListener() {
